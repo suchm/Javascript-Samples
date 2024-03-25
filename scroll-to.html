@@ -1,0 +1,22 @@
+<!-- Insert this tag where you want to trigger a scroll-to action -->
+<div id="scroll-to"></div>
+
+<script>
+    var scrollTo = '#scroll-to';
+
+    // Trigger mailing when section is scrolled to
+    if ( sendAbandon ) {
+        $(window).scroll(function() {
+           var hT = $(scrollTo).offset().top,
+               hH = $(scrollTo).outerHeight(),
+               wH = $(window).height(),
+               wS = $(this).scrollTop();
+
+               if (wS > ((hT+hH-wH))){
+                    $(window).off('scroll');
+
+                    // Do something when scroll-to point is reached
+               }
+        });
+    } 
+</script>

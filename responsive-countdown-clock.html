@@ -1,0 +1,165 @@
+<!-- Responsive countdown clock -->
+
+<html lang="en-GB">
+   <head>
+
+      <title>Countdown Clock</title>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="apple-mobile-web-app-title" content="">
+      <meta charset="UTF-8">
+      <meta name="robots" content="none" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all">
+
+      <style>
+
+         body {
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+         }
+
+         /* Loader */
+         #loader {
+            position: fixed;
+            background: #ffffff;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 9999;
+            text-align: center;
+         }
+         #loader p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 22px;
+            color: #111;
+            margin: 0;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+         }
+         #loader p span {
+            font-size: 16px;
+            display: block;
+            margin: 20px 0 0 0;
+         }
+
+         /* countdown */
+         #countdown   {
+            margin:0 auto 20px;
+            width: 100%;
+            max-width: 350px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+         }
+
+         #countdown p {
+            display: inline-block;
+            margin: 0 0.5%;
+            background: #000000;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -1px;
+            font-size: 40px;
+            padding: 10px 0px;
+            width: 24%;
+            text-align: center;
+         }
+         #countdown p span    {
+            display: block;
+            font-weight: normal;
+            font-size: 14px;
+         }
+         @media only screen and  (max-width: 450px)  {
+            #countdown {
+               width: 220px;
+            }
+            #countdown p {
+               font-size: 21px;
+            }
+            #countdown p span {
+               font-size: 12px;
+            }
+         }     
+      </style>
+   </head>
+
+   <body>
+      <!-- Loader - Disappears when countdown clock has loaded -->
+      <section id="loader">
+         <p><i class="fa fa-spinner fa-pulse fa-3x fa-fw"><span style="display: none;">.</span></i> <span>Please wait...</span></p>
+      </section>
+
+      <!-- display countdown clock -->
+      <div id="countdown"></div>
+
+      <!-- jQuery -->
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script>
+      $(document).ready(function() {
+
+         $window = $(window);
+              
+         function calcTime(city, offset, d) {
+            // convert to msec
+            // add local time zone offset
+            // get UTC time in msec
+            utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+            // create new Date object for different city
+            // using supplied offset
+            nd = new Date(utc + (3600000*offset));
+
+            // return time as a string
+            return nd;
+         }
+         
+         // Update countdown expiry time
+         var end = new Date('04/30/2024 1:00 PM');
+           
+         var _second = 1000;
+         var _minute = _second * 60;
+         var _hour = _minute * 60;
+         var _day = _hour * 24;
+         var timer;
+         var countdownExpired = false;
+           
+         function showRemaining() {
+            var nowDate = new Date();
+            var now = calcTime('London', '+1', nowDate); // change to +1 or +0 depending on whether GMT or BST
+            var distance = end - now;
+              
+            $('#loader').fadeOut();
+              
+            if (distance < 0) {
+               clearInterval(timer);
+               countdownExpired = true;
+               $('#countdown').html('EXPIRED!');
+               // Do something when expired
+               return;
+            }
+
+            var days = Math.floor(distance / _day);
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+
+            document.getElementById('countdown').innerHTML = '<p>' + days + '<span>days</span></p>';
+            document.getElementById('countdown').innerHTML += '<p>' + hours + '<span>hrs</span></p>';
+            document.getElementById('countdown').innerHTML += '<p>' + minutes + '<span>mins</span></p>';
+            document.getElementById('countdown').innerHTML += '<p>' + seconds + '<span>secs</span></p>';
+         } 
+         timer = setInterval(showRemaining, 1000);
+      });
+      </script>
+
+   </body>
+</html>

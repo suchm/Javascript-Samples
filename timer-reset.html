@@ -1,0 +1,172 @@
+<!-- The timer has a start and end time and resets each day to countdown between the same times -->
+
+<html lang="en-GB">
+    <head>
+        <title>Timer Reset</title>
+        
+        <!-- Browser Specific Metas -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="apple-mobile-web-app-title" content="">
+        <meta charset="UTF-8"> 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all">   
+
+        <style>
+            body {
+                font-family: "Roboto", sans-serif;
+                font-weight: 500;
+                font-style: normal;
+            }
+
+            #countdown-text {
+                display: none;
+                text-align: center;
+            }
+
+            /* countdown */
+            .countdownWrapper   {
+                display: block;
+                width:100%;
+                height: 430px;
+                background:#000;
+                text-align: center;
+
+            }
+            #countdown   {
+                /*display: table;*/
+                text-align: center;
+                margin:0 auto 20px;
+                width: 100%;
+                max-width: 350px;
+            }
+            #countdown p {
+                display: inline-block;
+                margin: 0 0.5%;
+                background: #333333;
+                border-radius: 8px;
+                color: #fff;
+                font-weight: 600;
+                letter-spacing: -1px;
+                font-size: 40px;
+                padding: 10px 0px;
+                width: 24%;
+                text-align: center;
+            }
+            #countdown p span    {
+                display: block;
+                font-weight: normal;
+                font-size: 14px;
+            }
+            @media only screen and  (max-width: 450px)  {
+                #countdown {
+                   width: 220px;
+                }
+                #countdown p {
+                   font-size: 21px;
+                }
+                #countdown p span {
+                   font-size: 12px;
+                }
+             } 
+
+            /* Loader */
+            #loader {
+                position: fixed;
+                background: #ffffff;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                z-index: 9999;
+                text-align: center;
+            }
+            #loader p {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                font-size: 22px;
+                color: #111;
+                margin: 0;
+                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%, -50%);
+            }
+            #loader p span {
+                font-size: 18px;
+                display: block;
+                margin: 20px 0 0 0;
+            }
+
+        </style>   
+    </head> 
+
+    <body>
+        <!-- Set countdown text -->
+        <div id="countdown-text">For the countdown to appear change the start and end times.</div>
+
+        <!-- countdown timer -->
+        <div id="countdown"></div>
+
+        <!-- scripts -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+                // Set the start and end time of the countdown clock
+                var start_time = "11:00";
+                var end_time   = "12:00";
+
+                // Set London timezone
+                moment.tz.add('Europe/London|GMT BST BDST|0 -10 -20|0101010101010101010101010101010101010101010101010121212121210101210101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-2axa0 Rc0 1fA0 14M0 1fc0 1g00 1co0 1dc0 1co0 1oo0 1400 1dc0 19A0 1io0 1io0 WM0 1o00 14o0 1o00 17c0 1io0 17c0 1fA0 1a00 1lc0 17c0 1io0 17c0 1fA0 1a00 1io0 17c0 1io0 17c0 1fA0 1cM0 1io0 17c0 1fA0 1a00 1io0 17c0 1io0 17c0 1fA0 1a00 1io0 1qM0 Dc0 2Rz0 Dc0 1zc0 Oo0 1zc0 Rc0 1wo0 17c0 1iM0 FA0 xB0 1fA0 1a00 14o0 bb0 LA0 xB0 Rc0 1wo0 11A0 1o00 17c0 1fA0 1a00 1fA0 1cM0 1fA0 1a00 17c0 1fA0 1a00 1io0 17c0 1lc0 17c0 1fA0 1a00 1io0 17c0 1io0 17c0 1fA0 1a00 1a00 1qM0 WM0 1qM0 11A0 1o00 WM0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1tA0 IM0 90o0 U00 1tA0 U00 1tA0 U00 1tA0 U00 1tA0 WM0 1qM0 WM0 1qM0 WM0 1tA0 U00 1tA0 U00 1tA0 11z0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1o00 14o0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|10e6');
+
+                var now_london = moment.parseZone(moment().tz('Europe/London').format()).utc(true); // Current London time
+                var countdown_start = moment.tz(start_time,'HH:mm','Europe/London').utc(true);
+                var countdown_end = moment.tz(end_time,'HH:mm','Europe/London').utc(true);
+
+                if ( now_london.unix() > countdown_start.unix() && now_london.unix() < countdown_end.unix() ) {
+                    
+                    // If between start and end times show the countdown
+                    timer = setInterval(showRemaining, 1000);
+
+                } else {
+                    $('#loader').fadeOut();
+                    $('#countdown-text').fadeIn();
+
+                }
+
+                function showRemaining() {
+                    var now = moment.parseZone(moment().tz('Europe/London').format()).utc(true); // Current London time
+                    
+                    $('#loader').fadeOut();
+                    
+                    if ( now.unix() > countdown_end.unix() ) {
+                 
+                        clearInterval(timer);
+                        countdownExpired = true;
+                        $('#countdown').html('COUNTDOWN EXPIRED!');
+                        return;
+                    }
+
+                    var days = countdown_end.diff(now, 'days');
+                    var hours = countdown_end.diff(now, 'hours');
+                    var total_minutes = countdown_end.diff(now, 'minutes');
+                    var total_seconds = countdown_end.diff(now, 'seconds');
+                    
+                    var minutes = total_minutes % 60;
+                    var seconds = total_seconds % 60;
+                 
+                    document.getElementById('countdown').innerHTML = '<p>' + days + '<span>days</span></p>';
+                    document.getElementById('countdown').innerHTML += '<p>' + hours + '<span>hrs</span></p>';
+                    document.getElementById('countdown').innerHTML += '<p>' + minutes + '<span>mins</span></p>';
+                    document.getElementById('countdown').innerHTML += '<p>' + seconds + '<span>secs</span></p>';
+                }
+
+            });
+        </script>
+    </body>
+</html>
